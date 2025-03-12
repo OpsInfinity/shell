@@ -14,7 +14,16 @@ stat_check
 echo "Disabling SELinux temporarily"
 setenforce 0 || echo "Warning: Unable to set SELinux to permissive mode."
 
+if sestatus | grep -q "enabled"; then
+  echo "Disabling SELinux temporarily"
+  setenforce 0 || echo "Warning: Unable to set SELinux to permissive mode."
+else
+  echo "SELinux is already disabled."
+fi
+
+
 echo "Restarting & enabling Nginx"
 systemctl enable nginx &>>$log_file
 systemctl restart nginx &>>$log_file
 stat_check
+
