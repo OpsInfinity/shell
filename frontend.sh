@@ -2,21 +2,19 @@
 
 source common.sh
 
-echo Installing Nginx
-dnf install nginx -y &>>$log_file
+echo "Installing Nginx"
+dnf install -y nginx &>>$log_file
 stat_check
 
-
-echo copy conf files
-# shellcheck disable=SC2216
+echo "Copying configuration files"
 yes | cp -rf nginx.conf /etc/nginx/nginx.conf &>>$log_file
-# shellcheck disable=SC2216
 yes | cp -rf nodejs.conf /etc/nginx/conf.d/nodejs.conf &>>$log_file
-setenforce 0
 stat_check
 
-echo "restart & enable nginx"
-systemctl enable nginx
-systemctl restart nginx
-stat_check
+echo "Disabling SELinux temporarily"
+setenforce 0 || echo "Warning: Unable to set SELinux to permissive mode."
 
+echo "Restarting & enabling Nginx"
+systemctl enable nginx &>>$log_file
+systemctl restart nginx &>>$log_file
+stat_check
