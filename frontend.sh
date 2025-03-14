@@ -39,16 +39,16 @@ echo "Executing package.sh..."
 su - spec -c "cd /home/spec/app && bash package.sh"
 
 # Configure MongoDB environment variables
-db_user="chaitu"
-db_pass="123Chaitu"
+db_user="prasad"
+db_pass="123Prasad"
 
 echo "Setting up environment variables..."
-echo Environment="MONGO_ENDPOINT=mongodb+srv://$db_user:$db_pass@cluster0.wdtudby.mongodb.net/login-app-db?retryWrites=true&w=majority" >> /home/spec/app/files/spec.service
+echo Environment="MONGO_ENDPOINT=mongodb+srv://$db_user:$db_pass@cluster0.3zmmc.mongodb.net/login-app-db?retryWrites=true&w=majority" >> /home/spec/app/files/spec.service
 
 # Move service file and start application service
 echo "Setting up application service..."
 cp /home/spec/app/files/spec.service /etc/systemd/system/
-systemctl daemon-reload
+systemctl daemon-reloads
 systemctl enable --now spec
 
 # Install Nginx
