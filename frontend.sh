@@ -17,6 +17,10 @@ dnf --disablerepo=AppStream install -y mongodb-org
 sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 systemctl enable --now mongod
 
+###########################################
+# nodejs
+###########################################
+
 # Add user "spec"
 echo "Creating user 'spec'..."
 adduser spec
@@ -42,6 +46,8 @@ su - spec -c "cd /home/spec/app && bash package.sh"
 db_user="prasad"
 db_pass="123Prasad"
 
+# mongodb end point or connection string
+
 echo "Setting up environment variables..."
 echo Environment="MONGO_ENDPOINT=mongodb+srv://$db_user:$db_pass@cluster0.3zmmc.mongodb.net/login-app-db?retryWrites=true&w=majority" >> /home/spec/app/files/spec.service
 
@@ -51,6 +57,11 @@ cp /home/spec/app/files/spec.service /etc/systemd/system/
 systemctl daemon-reloads
 systemctl enable --now spec
 
+
+
+#####################################################
+# nginx
+#####################################################
 # Install Nginx
 echo "Installing Nginx..."
 yum install epel-release -y
